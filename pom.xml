@@ -63,6 +63,12 @@
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
 
+        <!-- MinIO -->
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>8.2.1</version> <!-- 使用最新版本 -->
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>

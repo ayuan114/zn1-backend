@@ -32,7 +32,12 @@ knife4j:
         api-rule: package
         api-rule-resources:
           - com.jizy.zn1backend.controller
-
+  #  上传文件限制
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+#  MinIO配置
 minio:
   endpoint: http://116.205.233.213:9000   # MinIO服务器地址
   access-key: cNkjvBhzDMg9PQpWtv4e       # 登录用户名

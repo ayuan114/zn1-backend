@@ -1,5 +1,6 @@
-package com.jizy.zn1backend.common;
+package com.jizy.zn1backend.utils;
 
+import com.jizy.zn1backend.common.BaseResponse;
 import com.jizy.zn1backend.exception.ErrorCode;
 
 public class ResultUtils {
@@ -12,6 +13,17 @@ public class ResultUtils {
      * @return 响应
      */
     public static <T> BaseResponse<T> success(T data) {
+        return new BaseResponse<>(0, data, "ok");
+    }
+
+    /**
+     * 成功
+     *
+     * @param data 数据
+     * @param <T>  数据类型
+     * @return 响应
+     */
+    public static <T> BaseResponse<String> success(String data) {
         return new BaseResponse<>(0, data, "ok");
     }
 

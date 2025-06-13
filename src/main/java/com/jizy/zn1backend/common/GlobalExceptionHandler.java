@@ -2,6 +2,7 @@ package com.jizy.zn1backend.common;
 
 import com.jizy.zn1backend.exception.BusinessException;
 import com.jizy.zn1backend.exception.ErrorCode;
+import com.jizy.zn1backend.utils.ResultUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

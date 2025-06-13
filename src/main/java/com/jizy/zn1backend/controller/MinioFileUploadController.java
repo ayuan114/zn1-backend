@@ -1,6 +1,5 @@
 package com.jizy.zn1backend.controller;
 
-import com.jizy.zn1backend.common.ResultUtils;
 import com.jizy.zn1backend.utils.MinioUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Description minio文件上传控制器
@@ -24,11 +24,10 @@ public class MinioFileUploadController {
      * @param fileName 文件名称
      * @Description 上传文件
      */
-    @GetMapping("/upload")
+    @PostMapping("/upload")
     public String uploadFile(@RequestParam("file") MultipartFile file, String fileName) {
-
         minioUtils.upload(file, fileName);
-        return fileName;
+        return "文件上传成功!";
     }
 
     /**
@@ -45,9 +44,9 @@ public class MinioFileUploadController {
      * @Description 得到文件url
      */
     @GetMapping("/getUrl")
-    public String getFileUrl(@RequestParam("fileName") String fileName){
+    public Map getFileUrl(@RequestParam("fileName") String fileName){
         HashMap map=new HashMap();
         map.put("FileUrl",minioUtils.getFileUrl(fileName));
-        return fileName;
+        return map;
     }
 }

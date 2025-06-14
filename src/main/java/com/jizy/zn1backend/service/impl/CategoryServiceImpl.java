@@ -28,7 +28,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category>
 
         if (parentId != null) {
             Category parent = this.getById(parentId);
-            category.setParent_id(parent.getId());
+            category.setParentId(parent.getId());
             category.setLevel(parent.getLevel() + 1);
         } else {
             category.setLevel(1);
@@ -50,18 +50,18 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category>
 
         // 第二遍：构建树结构
         for (Category cat : allCategories) {
-            if (cat.getParent_id() == null) {
+            if (cat.getParentId() == null) {
                 roots.add(cat);
             } else {
-                Category parent = categoryMap.get(cat.getParent_id());
+                Category parent = categoryMap.get(cat.getParentId());
                 if (parent != null) {
-                    //parent.getChildren().add(cat);
+                    parent.getChildren().add(cat);
                 }
             }
         }
 
         // 按sortOrder排序
-        roots.sort(Comparator.comparingInt(Category::getSort_order));
+        roots.sort(Comparator.comparingInt(Category::getSortOrder));
         return roots;
     }
 }

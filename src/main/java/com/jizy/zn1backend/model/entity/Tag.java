@@ -17,7 +17,7 @@ public class Tag {
     /**
      * 
      */
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     /**
@@ -28,5 +28,5 @@ public class Tag {
     /**
      * 
      */
-    private Date create_time;
+    private Date createTime;
 }

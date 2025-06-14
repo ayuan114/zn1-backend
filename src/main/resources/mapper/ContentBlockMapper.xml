@@ -6,11 +6,11 @@
 
     <resultMap id="BaseResultMap" type="com.jizy.zn1backend.model.entity.ContentBlock">
             <id property="id" column="id" />
-            <result property="article_id" column="article_id" />
-            <result property="block_type" column="block_type" />
+            <result property="articleId" column="article_id" />
+            <result property="blockType" column="block_type" />
             <result property="content" column="content" />
-            <result property="image_id" column="image_id" />
-            <result property="sort_order" column="sort_order" />
+            <result property="imageId" column="image_id" />
+            <result property="sortOrder" column="sort_order" />
     </resultMap>
 
     <sql id="Base_Column_List">

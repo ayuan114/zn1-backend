@@ -2,7 +2,9 @@ package com.jizy.zn1backend.controller;
 
 import com.jizy.zn1backend.model.dto.ArticleCreateRequest;
 import com.jizy.zn1backend.model.vo.ArticleResponse;
+import com.jizy.zn1backend.model.vo.ImageUploadResponse;
 import com.jizy.zn1backend.service.ArticleService;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/api/articles")
+@RequestMapping("/articles")
 public class ArticleController {
     
     @Autowired
@@ -40,12 +42,5 @@ public class ArticleController {
             @RequestParam("file") MultipartFile file) {
         ImageUploadResponse response = articleService.uploadImage(articleId, file);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
-    
-    // 图片上传响应
-    public static class ImageUploadResponse {
-        private String imageId;
-        private String url;
-        private String placeholder; // {{IMAGE:img_id}}
     }
 }

@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * 
  * @TableName article_tag
@@ -16,12 +18,19 @@ public class ArticleTag {
     /**
      * 
      */
-    @TableId
-    private Long article_id;
+    private Long articleId;
 
     /**
      * 
      */
-    @TableId
-    private Long tag_id;
+    private Long tagId;
+
+    @Data
+    // 复合主键类
+    public static class ArticleTagId implements Serializable {
+        private Long article;
+        private Long tag;
+
+        // equals and hashCode
+    }
 }

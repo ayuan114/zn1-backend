@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
 import lombok.Data;
 
 /**
@@ -15,38 +18,46 @@ import lombok.Data;
 @Data
 public class Article {
     /**
-     * 
+     *
      */
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     /**
-     * 
+     *
      */
     private String title;
 
     /**
-     * 
+     *
      */
-    private Long author_id;
+    private Long authorId;
 
     /**
      * 所属分类
      */
-    private Long category_id;
+    private Long categoryId;
 
     /**
-     * 
+     *
      */
-    private Object status;
+    private Object status = ArticleStatus.DRAFT;
 
     /**
-     * 
+     *
      */
-    private Date create_time;
+    private Date createTime;
 
     /**
-     * 
+     *
      */
-    private Date update_time;
+    private Date updateTime;
+
+
+    private Set<Tag> tags = new HashSet<>();
+
+    // 枚举定义
+    public enum ArticleStatus {
+        DRAFT, PUBLISHED, DELETED
+    }
 }

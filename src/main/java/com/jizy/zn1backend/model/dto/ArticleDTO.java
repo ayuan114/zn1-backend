@@ -1,7 +1,7 @@
 package com.jizy.zn1backend.model.dto;
 
 import com.jizy.zn1backend.model.enums.BlockType;
-import com.sun.istack.internal.NotNull;
+
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -11,8 +11,7 @@ import java.util.List;
 public class ArticleDTO {
 
     private String title;
-    
-    @NotNull
+
     private Long authorId;
     
     private Long categoryId;

@@ -6,6 +6,10 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.beans.Transient;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 
  * @TableName category
@@ -16,7 +20,7 @@ public class Category {
     /**
      * 
      */
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     /**
@@ -27,7 +31,7 @@ public class Category {
     /**
      * 父分类ID
      */
-    private Long parent_id;
+    private Long parentId;
 
     /**
      * 分类层级
@@ -35,7 +39,12 @@ public class Category {
     private Integer level;
 
     /**
-     * 
+     *
      */
-    private Integer sort_order;
+    private Integer sortOrder;
+
+    /**
+     * 子分类列表（非数据库字段）
+     */
+    private List<Category> children = new ArrayList<>();
 }

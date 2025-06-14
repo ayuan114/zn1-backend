@@ -16,18 +16,18 @@ public class ContentBlock {
     /**
      * 
      */
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     /**
      * 
      */
-    private Long article_id;
+    private Long articleId;
 
     /**
      * 
      */
-    private Object block_type;
+    private Object blockType;
 
     /**
      * 
@@ -37,10 +37,10 @@ public class ContentBlock {
     /**
      * 
      */
-    private String image_id;
+    private String imageId;
 
     /**
      * 
      */
-    private Integer sort_order;
+    private Integer sortOrder;
 }

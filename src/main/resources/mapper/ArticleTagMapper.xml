@@ -5,8 +5,8 @@
 <mapper namespace="com.jizy.zn1backend.mapper.ArticleTagMapper">
 
     <resultMap id="BaseResultMap" type="com.jizy.zn1backend.model.entity.ArticleTag">
-            <id property="article_id" column="article_id" />
-            <id property="tag_id" column="tag_id" />
+            <id property="articleId" column="article_id" />
+            <id property="tagId" column="tag_id" />
     </resultMap>
 
     <sql id="Base_Column_List">

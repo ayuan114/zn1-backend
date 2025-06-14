@@ -7,7 +7,7 @@
     <resultMap id="BaseResultMap" type="com.jizy.zn1backend.model.entity.Tag">
             <id property="id" column="id" />
             <result property="name" column="name" />
-            <result property="create_time" column="create_time" />
+            <result property="createTime" column="create_time" />
     </resultMap>
 
     <sql id="Base_Column_List">

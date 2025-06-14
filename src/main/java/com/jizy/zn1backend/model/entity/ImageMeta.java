@@ -23,20 +23,20 @@ public class ImageMeta {
     /**
      * 
      */
-    private Long article_id;
+    private Long articleId;
 
     /**
      * 
      */
-    private String file_name;
+    private String fileName;
 
     /**
      * 
      */
-    private String storage_path;
+    private String storagePath;
 
     /**
      * 
      */
-    private Date upload_time;
+    private Date uploadTime;
 }

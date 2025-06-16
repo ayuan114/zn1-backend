@@ -1,14 +1,20 @@
 package com.jizy.zn1backend.common;
 
+import cn.hutool.json.JSON;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.jizy.zn1backend.config.MinioConfig;
 import io.minio.*;
+import io.minio.http.Method;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.InputStream;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class MinioService {
     private final MinioClient minioClient;
     private final MinioConfig minioConfig;
@@ -19,15 +25,34 @@ public class MinioService {
         InputStream inputStream = file.getInputStream();
         String contentType = file.getContentType();
 
-        minioClient.putObject(
-            PutObjectArgs.builder()
-                .bucket(minioConfig.getBucketName())
-                .object(fileName)
-                .stream(inputStream, file.getSize(), -1)
-                .contentType(contentType)
-                .build()
+        ObjectWriteResponse objectWriteResponse = minioClient.putObject(
+                PutObjectArgs.builder()
+                        .bucket(minioConfig.getBucketName())
+                        .object(fileName)
+                        .stream(inputStream, file.getSize(), -1)
+                        .contentType(contentType)
+                        .build()
         );
-        return fileName;
+        String fileUrl = this.getFileUrl(fileName);
+        log.info("上传文件返回地址: {}", fileUrl);
+        log.info("上传文件返回地址objectWriteResponse: {}", JSONUtil.toJsonStr(objectWriteResponse));
+        return minioConfig.getEndpoint()  + "/" +minioConfig.getBucketName() + "/" + fileName;
+    }
+
+    public String getFileUrl(String objectFile) {
+        try {
+
+            return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
+                    .method(Method.GET)
+                    .bucket(minioConfig.getBucketName())
+                    .object(objectFile)
+                    .build()
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     // 下载文件

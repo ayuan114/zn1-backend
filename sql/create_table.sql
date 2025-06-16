@@ -81,3 +81,17 @@ CREATE INDEX idx_article_category ON `article` (`category_id`);
 CREATE INDEX idx_article_status ON `article` (`status`);
 CREATE INDEX idx_tag_name ON `tag` (`name`);
 
+
+
+-- 文章表 (增加分类关联)
+CREATE TABLE `blog_article` (
+                           `id` BIGINT PRIMARY KEY AUTO_INCREMENT,
+                           `title` VARCHAR(200) NOT NULL COMMENT '文章标题',
+                           `author_id` BIGINT NOT NULL COMMENT '作者id',
+                           `content` TEXT COMMENT '文章内容',
+                           `tags` VARCHAR(200) COMMENT '标签集合',
+                           `category_id` BIGINT COMMENT '所属分类 category -> id',
+                           `status` ENUM('DRAFT', 'PUBLISHED', 'DELETED') DEFAULT 'DRAFT',
+                           `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP,
+                           `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+) comment '博客文章表' collate = utf8mb4_unicode_ci;

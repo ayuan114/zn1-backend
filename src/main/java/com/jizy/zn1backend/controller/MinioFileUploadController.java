@@ -19,34 +19,34 @@ public class MinioFileUploadController {
     @Autowired
     private MinioUtils minioUtils;
 
-    /**
+   /* *//**
      * @param file     文件
      * @param fileName 文件名称
      * @Description 上传文件
-     */
+     *//*
     @PostMapping("/upload")
     public String uploadFile(@RequestParam("file") MultipartFile file, String fileName) {
         minioUtils.upload(file, fileName);
         return "文件上传成功!";
     }
 
-    /**
+    *//**
      * @param fileName 文件名称
      * @Description dowload文件
-     */
+     *//*
     @GetMapping("/dowload")
     public ResponseEntity dowloadFile(@RequestParam("fileName") String fileName) {
         return minioUtils.download(fileName);
     }
 
-    /**
+    *//**
      * @param fileName 文件名称
      * @Description 得到文件url
-     */
+     *//*
     @GetMapping("/getUrl")
     public Map getFileUrl(@RequestParam("fileName") String fileName){
         HashMap map=new HashMap();
         map.put("FileUrl",minioUtils.getFileUrl(fileName));
         return map;
-    }
+    }*/
 }

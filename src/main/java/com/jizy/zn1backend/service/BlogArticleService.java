@@ -7,6 +7,7 @@ import com.jizy.zn1backend.model.entity.BlogArticle;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jizy.zn1backend.model.vo.ArticleResponse;
 import com.jizy.zn1backend.model.vo.BlogArticleResponse;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
 * @author Administrator
@@ -16,5 +17,7 @@ import com.jizy.zn1backend.model.vo.BlogArticleResponse;
 public interface BlogArticleService extends IService<BlogArticle> {
 
     BlogArticleResponse createBlogArticle(BlogArticleDTO request);
+
+    String handleImageUpload(MultipartFile file);
 
 }

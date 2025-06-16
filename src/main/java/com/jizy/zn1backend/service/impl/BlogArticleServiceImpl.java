@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jizy.zn1backend.common.BaseResponse;
 import com.jizy.zn1backend.common.MinioStorageService;
 import com.jizy.zn1backend.exception.BusinessException;
+import com.jizy.zn1backend.exception.ErrorCode;
 import com.jizy.zn1backend.model.dto.ArticleCreateRequest;
 import com.jizy.zn1backend.model.dto.BlogArticleDTO;
 import com.jizy.zn1backend.model.dto.ContentBlockDTO;
@@ -20,8 +21,12 @@ import com.jizy.zn1backend.utils.ResultUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.File;
+import java.io.InputStream;
 import java.util.Base64;
 import java.util.Date;
 
@@ -53,25 +58,27 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleMapper, BlogA
     }
 
     // 处理图片上传
-    private String handleImageUpload(Article article, String fileName) {
-        ImageMeta meta = new ImageMeta();
-        meta.setArticleId(article.getId());
-
-
-        // 方式2：处理base64图片上传
-        byte[] imageData = Base64.getDecoder().decode(imageBlock.getContent());
-        String fileName = "image_" + System.currentTimeMillis() + ".png";
-        // 生成唯一图片ID
-        String imageId = DigestUtils.md5DigestAsHex(fileName.getBytes());
-        // 存储路径格式：/articles/{articleId}/{imageId}.{ext}
-        String storagePath = String.format("articles/%d/%s.%s", article.getId(), imageId, fileName);
-        String string = minioStorageService.saveToMinioStorage(imageData, storagePath);
-        if (StrUtil.isBlank(string)) {
+    @Override
+    public String handleImageUpload(MultipartFile file) {
+        try {
+            // 方式2：处理base64图片上传
+            //byte[] imageData = Base64.getDecoder().decode(imageBlock.getContent());
+            String fileName = file.getOriginalFilename();
+            // 生成唯一图片ID
+            String imageId = DigestUtils.md5DigestAsHex(fileName.getBytes());
+            // 存储路径格式：/articles/{articleId}/{imageId}.{ext}
+            String storagePath = String.format("blog/%s.%s", imageId + ".png");
+            byte[] bytes = file.getBytes();
+            String string = minioStorageService.saveToMinioStorage(bytes, storagePath);
+            if (StrUtil.isBlank(string)) {
+                throw new BusinessException(ErrorCode.NOT_FOUND_ERROR, "上传失败");
+            }
+            String fileUrl = minioStorageService.getFileUrl(storagePath);
+            log.info("文件地址获取成功: {}", fileUrl);
+            return fileUrl;
+        } catch (Exception e) {
             return null;
         }
-        String fileUrl = minioStorageService.getFileUrl(storagePath);
-        log.info("文件地址获取成功: {}" + fileUrl);
-        return fileUrl;
     }
 }
 

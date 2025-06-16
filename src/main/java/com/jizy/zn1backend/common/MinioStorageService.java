@@ -115,6 +115,30 @@ public class MinioStorageService {
     }
 
     /**
+     * 保存图片到MinIO（指定文件名）
+     *
+     * @param imageData 图片字节数据
+     * @param fileName  文件名（可包含路径）
+     * @return 存储的对象路径（格式：bucketName/objectPath）
+     */
+    public String saveToMinioStorageFile(byte[] imageData, String fileName) {
+        try {
+            // 从文件名中提取格式
+            String format = FilenameUtils.getExtension(fileName).toLowerCase();
+            if (format.isEmpty()) {
+                // 如果无法从文件名获取格式，则检测图片格式
+                format = detectImageFormat(imageData);
+                fileName = fileName + "." + format;
+            }
+
+            // 上传到MinIO
+            return uploadToMinio(imageData, fileName, format);
+        } catch (Exception e) {
+            throw new StorageException("Failed to save image to MinIO", e);
+        }
+    }
+
+    /**
      * 保存图片到MinIO（按文章ID组织目录）
      *
      * @param imageData 图片字节数据

@@ -9,15 +9,23 @@ import com.jizy.zn1backend.model.vo.ArticleResponse;
 import com.jizy.zn1backend.model.vo.BlogArticleResponse;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.InputStream;
+import java.util.List;
+
 /**
-* @author Administrator
-* @description 针对表【blog_article(博客文章表)】的数据库操作Service
-* @createDate 2025-06-16 17:37:43
-*/
+ * @author Administrator
+ * @description 针对表【blog_article(博客文章表)】的数据库操作Service
+ * @createDate 2025-06-16 17:37:43
+ */
 public interface BlogArticleService extends IService<BlogArticle> {
 
     BlogArticleResponse createBlogArticle(BlogArticleDTO request);
 
     String handleImageUpload(MultipartFile file);
 
+    InputStream filedownload(String fileName);
+
+    List<BlogArticle> queryBlogArticleTitle(BlogArticleDTO request);
+
+    BlogArticle queryArticleIdByDetail(long id);
 }

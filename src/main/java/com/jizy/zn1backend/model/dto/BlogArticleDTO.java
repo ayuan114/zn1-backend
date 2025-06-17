@@ -43,6 +43,6 @@ public class BlogArticleDTO {
     /**
      * 
      */
-    private Object status;
+    private String status;
 
 }

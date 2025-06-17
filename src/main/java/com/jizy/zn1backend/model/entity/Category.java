@@ -42,9 +42,4 @@ public class Category {
      *
      */
     private Integer sortOrder;
-
-    /**
-     * 子分类列表（非数据库字段）
-     */
-    private List<Category> children = new ArrayList<>();
 }

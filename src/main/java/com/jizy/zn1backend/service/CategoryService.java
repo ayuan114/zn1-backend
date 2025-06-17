@@ -11,7 +11,4 @@ import java.util.List;
 * @createDate 2025-06-13 16:03:30
 */
 public interface CategoryService extends IService<Category> {
-    Boolean createCategory(String name, Long parentId);
-
-    List<Category> getCategoryTree();
 }

@@ -20,4 +20,10 @@
         id,title,author_id,content,tags,category_id,
         status,create_time,update_time
     </sql>
+
+    <select id="selectAlltitle" resultMap="BaseResultMap">
+        select id, title, create_time
+        from blog_article
+        where title is not null
+    </select>
 </mapper>

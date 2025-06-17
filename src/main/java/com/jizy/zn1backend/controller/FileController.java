@@ -19,7 +19,7 @@ import java.io.InputStream;
 public class FileController {
     private final MinioService minioService;
 
-    // 文件上传
+/*    // 文件上传
     @PostMapping("/upload")
     public String upload(@RequestParam("file") MultipartFile file) {
         try {
@@ -47,5 +47,5 @@ public class FileController {
         } catch (Exception e) {
             return ResponseEntity.status(500).body(null);
         }
-    }
+    }*/
 }

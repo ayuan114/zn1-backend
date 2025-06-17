@@ -106,7 +106,7 @@ public class MinioStorageService {
                 format = detectImageFormat(imageData);
                 fileName = fileName + "." + format;
             }
-
+            checkBucket();
             // 上传到MinIO
             return uploadToMinio(imageData, fileName, format);
         } catch (Exception e) {
@@ -207,7 +207,8 @@ public class MinioStorageService {
                             .build()
             );
             // 返回完整存储路径
-            return bucketName + "/" + objectName;
+            log.info("上传图片的minio成功，图片路径为：{}", bucketName + "/" + objectName);
+            return objectName;
         } catch (Exception e) {
             log.error("上传图片的minio报错，报错原因：{}", e.getMessage());
             return null;
@@ -321,6 +322,28 @@ public class MinioStorageService {
 
         public StorageException(String message, Throwable cause) {
             super(message, cause);
+        }
+    }
+
+    // 下载文件
+    public InputStream downloadFile(String fileName) throws Exception {
+        return minioClient.getObject(
+                GetObjectArgs.builder()
+                        .bucket(bucketName)
+                        .object(fileName)
+                        .build()
+        );
+    }
+
+    // 检查存储桶是否存在（可选）
+    public void checkBucket() throws Exception {
+        boolean exists = minioClient.bucketExists(BucketExistsArgs.builder()
+                .bucket(bucketName)
+                .build());
+        if (!exists) {
+            minioClient.makeBucket(MakeBucketArgs.builder()
+                    .bucket(bucketName)
+                    .build());
         }
     }
 }

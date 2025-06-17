@@ -18,7 +18,7 @@ public class ArticleController {
     @Autowired
     private ArticleService articleService;
 
-    // 创建图文混排文章
+/*    // 创建图文混排文章
     @PostMapping
     public ResponseEntity<ArticleResponse> createArticle(
             @RequestBody ArticleCreateRequest request) {
@@ -42,5 +42,5 @@ public class ArticleController {
             @RequestParam("file") MultipartFile file) {
         ImageUploadResponse response = articleService.uploadImage(articleId, file);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
+    }*/
 }

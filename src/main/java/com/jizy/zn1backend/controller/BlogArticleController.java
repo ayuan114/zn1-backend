@@ -54,11 +54,11 @@ public class BlogArticleController {
      * @return
      */
     @PostMapping("/create")
-    public BaseResponse<BlogArticleResponse> createBlogArticle(
+    public BaseResponse<String> createBlogArticle(
             @RequestBody BlogArticleDTO request) {
         BlogArticleResponse response = blogArticleService.createBlogArticle(request);
         if (ObjectUtil.isNotEmpty(response)) {
-            return ResultUtils.success(response);
+            return ResultUtils.success("博客创建成功");
         }
         throw new BusinessException(ErrorCode.NOT_FOUND_ERROR, "查询失败");
     }

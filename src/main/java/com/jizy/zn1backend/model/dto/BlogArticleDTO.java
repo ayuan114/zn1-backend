@@ -3,8 +3,10 @@ package com.jizy.zn1backend.model.dto;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.jizy.zn1backend.common.PageRequest;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -13,7 +15,7 @@ import java.util.Date;
  */
 @TableName(value ="blog_article")
 @Data
-public class BlogArticleDTO {
+public class BlogArticleDTO extends PageRequest implements Serializable {
 
     /**
      * 文章标题
@@ -44,5 +46,7 @@ public class BlogArticleDTO {
      * 
      */
     private String status;
+
+    private Long id;
 
 }

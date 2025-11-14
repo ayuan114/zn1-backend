@@ -1,5 +1,6 @@
 package com.jizy.zn1backend.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jizy.zn1backend.common.BaseResponse;
 import com.jizy.zn1backend.model.dto.ArticleCreateRequest;
 import com.jizy.zn1backend.model.dto.BlogArticleDTO;
@@ -28,4 +29,12 @@ public interface BlogArticleService extends IService<BlogArticle> {
     List<BlogArticle> queryBlogArticleTitle(BlogArticleDTO request);
 
     BlogArticle queryArticleIdByDetail(long id);
+
+    /**
+     * 获取查询条件
+     *
+     * @param pictureQueryRequest
+     * @return
+     */
+    QueryWrapper<BlogArticle> getQueryWrapper(BlogArticleDTO pictureQueryRequest);
 }

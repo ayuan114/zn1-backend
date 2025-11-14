@@ -1,8 +1,12 @@
 package com.jizy.zn1backend.controller;
 
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jizy.zn1backend.common.BaseResponse;
 import com.jizy.zn1backend.exception.BusinessException;
 import com.jizy.zn1backend.exception.ErrorCode;
@@ -26,6 +30,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -56,6 +61,7 @@ public class BlogArticleController {
     @PostMapping("/create")
     public BaseResponse<String> createBlogArticle(
             @RequestBody BlogArticleDTO request) {
+        log.info("创建博客文章: {}", JSONUtil.toJsonStr(request));
         BlogArticleResponse response = blogArticleService.createBlogArticle(request);
         if (ObjectUtil.isNotEmpty(response)) {
             return ResultUtils.success("博客创建成功");
@@ -111,11 +117,19 @@ public class BlogArticleController {
      * @return
      */
     @PostMapping("/query/title")
-    public BaseResponse<List<BlogArticle>> queryBlogArticleTitle(
+    public BaseResponse<Page<BlogArticle>> queryBlogArticleTitle(
             @RequestBody BlogArticleDTO request) {
-        List<BlogArticle> response = blogArticleService.queryBlogArticleTitle(request);
-        if (!response.isEmpty()) {
-            return ResultUtils.success(response);
+        log.info("获取博客文章标题: {}", JSONUtil.toJsonStr(request));
+        long current = request.getCurrent();
+        long size = request.getPageSize();
+        long count = blogArticleService.count();
+        // 修改为一次性完成分页查询和计数
+        Page<BlogArticle> page = new Page<>(current, size);
+        Page<BlogArticle> blogArticlePage = blogArticleService.page(page, blogArticleService.getQueryWrapper(request));
+        log.info("获取博客文章标题: {}", JSONUtil.toJsonStr(blogArticlePage));
+
+        if (CollectionUtil.isNotEmpty(blogArticlePage.getRecords())) {
+            return ResultUtils.success(blogArticlePage);
         }
         throw new BusinessException(ErrorCode.NOT_FOUND_ERROR, "查询失败");
     }
@@ -129,7 +143,8 @@ public class BlogArticleController {
     @PostMapping("/query/{id}")
     public BaseResponse<BlogArticle> queryArticleIdByDetail(
             @PathVariable Long id) {
-        BlogArticle response = blogArticleService.queryArticleIdByDetail(id);
+        log.info("获取博客文章内容: {}", id);
+        BlogArticle response = blogArticleService.getById(id);
         if (ObjectUtil.isNotEmpty(response)) {
             return ResultUtils.success(response);
         }

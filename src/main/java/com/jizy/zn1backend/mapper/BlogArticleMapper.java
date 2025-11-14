@@ -13,7 +13,6 @@ import java.util.List;
 */
 public interface BlogArticleMapper extends BaseMapper<BlogArticle> {
     List<BlogArticle> selectAlltitle();
-
 }
 
 

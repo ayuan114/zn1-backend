@@ -17,7 +17,7 @@ public class BlogArticle {
     /**
      * 
      */
-    @TableId(type = IdType.ASSIGN_ID)
+    @TableId(type = IdType.INPUT)
     private Long id;
 
     /**
@@ -43,7 +43,7 @@ public class BlogArticle {
     /**
      * 所属分类 category -> id
      */
-    private Long category_id;
+    private Long categoryId;
 
     /**
      * 
@@ -53,10 +53,10 @@ public class BlogArticle {
     /**
      * 
      */
-    private Date create_time;
+    private Date createTime;
 
     /**
      * 
      */
-    private Date update_time;
+    private Date updateTime;
 }

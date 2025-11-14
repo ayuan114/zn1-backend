@@ -22,7 +22,7 @@
     </sql>
 
     <select id="selectAlltitle" resultMap="BaseResultMap">
-        select id, title, create_time
+        select *
         from blog_article
         where title is not null
     </select>

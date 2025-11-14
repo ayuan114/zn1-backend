@@ -1,10 +1,13 @@
 package com.jizy.zn1backend.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jizy.zn1backend.common.BaseResponse;
@@ -33,10 +36,8 @@ import javax.annotation.Resource;
 import java.io.File;
 import java.io.InputStream;
 import java.time.LocalDateTime;
-import java.util.Base64;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Administrator
@@ -56,8 +57,19 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleMapper, BlogA
 
     @Override
     public BlogArticleResponse createBlogArticle(BlogArticleDTO request) {
+        if (request.getId() != null) {
+            BlogArticle article = new BlogArticle();
+            article.setId(request.getId());
+            article.setTags(request.getTags());
+            article.setTitle(request.getTitle());
+            article.setContent(request.getContent());
+            article.setCategoryId(request.getCategory_id());
+            this.updateById(article);
+        }
         BlogArticle article = new BlogArticle();
         BeanUtil.copyProperties(request, article);
+        // 生成10位随机长整型数
+        article.setId(RandomUtil.randomLong(1000000000L, 10000000000L));
         boolean save = this.save(article);
         BlogArticleResponse response = new BlogArticleResponse();
         BeanUtil.copyProperties(request, response);
@@ -117,6 +129,31 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleMapper, BlogA
             return null;
         }
         return blogArticle;
+    }
+
+    @Override
+    public QueryWrapper<BlogArticle> getQueryWrapper(BlogArticleDTO pictureQueryRequest) {
+        QueryWrapper<BlogArticle> queryWrapper = new QueryWrapper<>();
+        if (pictureQueryRequest == null) {
+            return queryWrapper;
+        }
+        String tags = pictureQueryRequest.getTags();
+        List<String> stringList = new ArrayList<>();
+        if (StringUtils.hasLength(tags)) {
+            stringList = Arrays.stream(tags.split(",")).collect(Collectors.toList());
+        }
+
+        Long id = pictureQueryRequest.getId();
+        queryWrapper.eq(ObjUtil.isNotEmpty(id), "id", id);
+        if (CollUtil.isNotEmpty(stringList)) {
+            for (String tag : stringList) {
+                queryWrapper.like("tags", "\"" + tag + "\"");
+            }
+        }
+        String sortOrder = pictureQueryRequest.getSortOrder();
+        String sortField = pictureQueryRequest.getSortField();
+        queryWrapper.orderBy(StrUtil.isNotEmpty(sortField), sortOrder.equals("ascend"), sortField);
+        return queryWrapper;
     }
 }
 

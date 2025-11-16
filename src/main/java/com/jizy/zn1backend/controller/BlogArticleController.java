@@ -152,6 +152,23 @@ public class BlogArticleController {
     }
 
     /**
+     * 删除博客文章内容
+     *
+     * @param
+     * @return
+     */
+    @PostMapping("/delete/{id}")
+    public BaseResponse<Boolean> deleteArticleById(
+            @PathVariable Long id) {
+        log.info("获取博客文章id: {}", id);
+        boolean remove = blogArticleService.removeById(id);
+        if (remove) {
+            return ResultUtils.success(true);
+        }
+        throw new BusinessException(ErrorCode.NOT_FOUND_ERROR, "删除失败");
+    }
+
+    /**
      * 获取分类数据
      *
      * @param

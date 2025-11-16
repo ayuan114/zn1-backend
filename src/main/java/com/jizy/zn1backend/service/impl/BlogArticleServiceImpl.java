@@ -64,19 +64,24 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleMapper, BlogA
             article.setTitle(request.getTitle());
             article.setContent(request.getContent());
             article.setCategoryId(request.getCategory_id());
-            this.updateById(article);
-        }
-        BlogArticle article = new BlogArticle();
-        BeanUtil.copyProperties(request, article);
-        // 生成10位随机长整型数
-        article.setId(RandomUtil.randomLong(1000000000L, 10000000000L));
-        boolean save = this.save(article);
-        BlogArticleResponse response = new BlogArticleResponse();
-        BeanUtil.copyProperties(request, response);
-        if (save) {
-            return response;
-        } else {
+            boolean updatedById = this.updateById(article);
+            if (updatedById) {
+                return new BlogArticleResponse();
+            }
             return null;
+        } else {
+            BlogArticle article = new BlogArticle();
+            BeanUtil.copyProperties(request, article);
+            // 生成10位随机长整型数
+            article.setId(RandomUtil.randomLong(1000000000L, 10000000000L));
+            boolean save = this.save(article);
+            BlogArticleResponse response = new BlogArticleResponse();
+            BeanUtil.copyProperties(request, response);
+            if (save) {
+                return response;
+            } else {
+                return null;
+            }
         }
     }
 

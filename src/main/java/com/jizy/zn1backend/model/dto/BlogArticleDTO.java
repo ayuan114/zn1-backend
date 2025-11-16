@@ -40,7 +40,7 @@ public class BlogArticleDTO extends PageRequest implements Serializable {
     /**
      * 所属分类 category -> id
      */
-    private Long category_id;
+    private Long categoryId;
 
     /**
      * 

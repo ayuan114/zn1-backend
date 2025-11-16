@@ -13,15 +13,13 @@ import com.jizy.zn1backend.exception.ErrorCode;
 import com.jizy.zn1backend.model.dto.ArticleCreateRequest;
 import com.jizy.zn1backend.model.dto.BlogArticleDTO;
 import com.jizy.zn1backend.model.entity.BlogArticle;
+import com.jizy.zn1backend.model.entity.BlogMessage;
 import com.jizy.zn1backend.model.entity.Category;
 import com.jizy.zn1backend.model.entity.Tag;
 import com.jizy.zn1backend.model.vo.ArticleResponse;
 import com.jizy.zn1backend.model.vo.BlogArticleResponse;
 import com.jizy.zn1backend.model.vo.ImageUploadResponse;
-import com.jizy.zn1backend.service.ArticleService;
-import com.jizy.zn1backend.service.BlogArticleService;
-import com.jizy.zn1backend.service.CategoryService;
-import com.jizy.zn1backend.service.TagService;
+import com.jizy.zn1backend.service.*;
 import com.jizy.zn1backend.utils.ResultUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -51,6 +50,9 @@ public class BlogArticleController {
 
     @Resource
     private TagService tagService;
+
+    @Resource
+    private BlogMessageService blogMessageService;
 
     /**
      * 创建博客文章
@@ -111,7 +113,7 @@ public class BlogArticleController {
     }
 
     /**
-     * 获取博客文章标题
+     * 获取博客列表
      *
      * @param request
      * @return
@@ -198,6 +200,43 @@ public class BlogArticleController {
         List<Tag> tags = tagService.list(queryWrapper);
         if (!tags.isEmpty()) {
             return ResultUtils.success(tags);
+        }
+        throw new BusinessException(ErrorCode.NOT_FOUND_ERROR, "查询失败");
+    }
+
+    /**
+     * 创建留言
+     *
+     * @param request
+     * @return
+     */
+    @PostMapping("/create/message")
+    public BaseResponse<String> createBlogMessage(
+            @RequestBody BlogMessage request) {
+        request.setCreateTime(new Date());
+        log.info("留言: {}", JSONUtil.toJsonStr(request));
+        boolean save = blogMessageService.save(request);
+        if (save) {
+            return ResultUtils.success("留言创建成功");
+        }
+        throw new BusinessException(ErrorCode.NOT_FOUND_ERROR, "创建失败");
+    }
+
+    /**
+     * 查询留言
+     *
+     * @param request
+     * @return
+     *
+     */
+    @PostMapping("/query/message")
+    public BaseResponse<List<BlogMessage>> queryBlogMessage(
+            @RequestBody BlogMessage request) {
+        log.info("留言: {}", JSONUtil.toJsonStr(request));
+        boolean save = blogMessageService.save(request);
+        List<BlogMessage> blogMessageList = blogMessageService.list();
+        if (CollectionUtil.isNotEmpty(blogMessageList)) {
+            return ResultUtils.success(blogMessageList);
         }
         throw new BusinessException(ErrorCode.NOT_FOUND_ERROR, "查询失败");
     }

@@ -63,7 +63,7 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleMapper, BlogA
             article.setTags(request.getTags());
             article.setTitle(request.getTitle());
             article.setContent(request.getContent());
-            article.setCategoryId(request.getCategory_id());
+            article.setCategoryId(request.getCategoryId());
             boolean updatedById = this.updateById(article);
             if (updatedById) {
                 return new BlogArticleResponse();
@@ -142,19 +142,27 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleMapper, BlogA
         if (pictureQueryRequest == null) {
             return queryWrapper;
         }
+        Long id = pictureQueryRequest.getId();
+        queryWrapper.eq(ObjUtil.isNotEmpty(id), "id", id);
+
+        String title = pictureQueryRequest.getTitle();
+        queryWrapper.like(StrUtil.isNotEmpty(title), "title", title);
+
+        Long categoryId = pictureQueryRequest.getCategoryId();
+        queryWrapper.eq(ObjUtil.isNotEmpty(categoryId), "category_id", categoryId);
+
         String tags = pictureQueryRequest.getTags();
-        List<String> stringList = new ArrayList<>();
+        queryWrapper.like(StrUtil.isNotEmpty(tags), "tags", tags);
+/*        List<String> stringList = new ArrayList<>();
         if (StringUtils.hasLength(tags)) {
             stringList = Arrays.stream(tags.split(",")).collect(Collectors.toList());
         }
-
-        Long id = pictureQueryRequest.getId();
-        queryWrapper.eq(ObjUtil.isNotEmpty(id), "id", id);
         if (CollUtil.isNotEmpty(stringList)) {
             for (String tag : stringList) {
                 queryWrapper.like("tags", "\"" + tag + "\"");
             }
-        }
+        }*/
+
         String sortOrder = pictureQueryRequest.getSortOrder();
         String sortField = pictureQueryRequest.getSortField();
         queryWrapper.orderBy(StrUtil.isNotEmpty(sortField), sortOrder.equals("ascend"), sortField);

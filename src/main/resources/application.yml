@@ -8,7 +8,7 @@ spring:
   # 数据库配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://116.205.233.213:3306/zn1?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://jizy.top:3306/zn1?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
     password: jizy1510
   mybatis-plus:
@@ -39,7 +39,7 @@ knife4j:
       max-request-size: 20MB
 #  MinIO配置
 minio:
-  endpoint: http://116.205.233.213:9000   # MinIO服务器地址
+  endpoint: http://jizy.top:9000   # MinIO服务器地址
   access-key: cNkjvBhzDMg9PQpWtv4e       # 登录用户名
   secret-key: gPRQaI4Wc2eFh0lMBL9c07Ev9Bli1zPYiA4bAhEv       # 登录密码
   bucket-name: zn1          # 存储桶名称（需提前在MinIO控制台创建）

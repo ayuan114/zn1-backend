@@ -27,6 +27,7 @@ import com.jizy.zn1backend.model.vo.BlogArticleResponse;
 import com.jizy.zn1backend.service.BlogArticleService;
 import com.jizy.zn1backend.utils.ResultUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
@@ -64,6 +65,7 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleMapper, BlogA
             article.setTitle(request.getTitle());
             article.setContent(request.getContent());
             article.setCategoryId(request.getCategoryId());
+            article.setUpdateTime(new Date());
             boolean updatedById = this.updateById(article);
             if (updatedById) {
                 return new BlogArticleResponse();
@@ -96,8 +98,12 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleMapper, BlogA
             String imageId = DigestUtils.md5DigestAsHex(fileName.getBytes());
             // 存储路径格式：/articles/{articleId}/{imageId}.{ext}
             LocalDateTime now = LocalDateTime.now();
-            String format = DateUtil.format(now, "yyyyMMddHHmm");
-            String storagePath = String.format("blog/%s", format, imageId);
+            String format = DateUtil.format(now, "yyyyMMdd");
+            //String storagePath = String.format("blog/%s", format, imageId);
+            String storagePath = String.format("blog/%s/%s.%s",
+                    format,
+                    imageId,
+                    FilenameUtils.getExtension(fileName));
             byte[] bytes = file.getBytes();
             String string = minioStorageService.saveToMinioStorage(bytes, storagePath);
             if (StrUtil.isBlank(string)) {

@@ -47,6 +47,8 @@ public class BlogArticleDTO extends PageRequest implements Serializable {
      */
     private String status;
 
+    private String createTime;
+
     private Long id;
 
 }

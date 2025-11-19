@@ -13,6 +13,7 @@ spring:
     password: jizy1510
   mybatis-plus:
     configuration:
+      #是否启用数据库驼峰命名
       map-underscore-to-camel-case: false
       # 仅在开发环境开启日志
       log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

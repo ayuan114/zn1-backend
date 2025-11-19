@@ -6,20 +6,20 @@
 
     <resultMap id="BaseResultMap" type="com.jizy.zn1backend.model.entity.User">
             <id property="id" column="id" />
-            <result property="userAccount" column="userAccount" />
-            <result property="userPassword" column="userPassword" />
-            <result property="userName" column="userName" />
-            <result property="userAvatar" column="userAvatar" />
-            <result property="userProfile" column="userProfile" />
-            <result property="userRole" column="userRole" />
-            <result property="editTime" column="editTime" />
-            <result property="createTime" column="createTime" />
-            <result property="updateTime" column="updateTime" />
-            <result property="isDelete" column="isDelete" />
+            <result property="userAccount" column="user_account" />
+            <result property="userPassword" column="user_password" />
+            <result property="userName" column="user_name" />
+            <result property="userAvatar" column="user_avatar" />
+            <result property="userProfile" column="user_profile" />
+            <result property="userRole" column="user_role" />
+            <result property="editTime" column="edit_time" />
+            <result property="createTime" column="create_time" />
+            <result property="updateTime" column="update_time" />
+            <result property="isDelete" column="is_delete" />
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,userAccount,userPassword,userName,userAvatar,userProfile,
-        userRole,editTime,createTime,updateTime,isDelete
+        id,user_account,user_password,user_name,user_avatar,user_profile,
+        user_role,edit_time,create_time,update_time,is_delete
     </sql>
 </mapper>

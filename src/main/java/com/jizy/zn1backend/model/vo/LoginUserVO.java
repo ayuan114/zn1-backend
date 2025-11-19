@@ -1,33 +1,22 @@
-package com.jizy.zn1backend.model.entity;
+package com.jizy.zn1backend.model.vo;
 
-import com.baomidou.mybatisplus.annotation.*;
-
-import java.util.Date;
 import lombok.Data;
 
-/**
- * 用户
- * @TableName user
- */
-@TableName(value ="user")
+import java.io.Serializable;
+import java.util.Date;
+
 @Data
-public class User {
+public class LoginUserVO implements Serializable {
+
     /**
-     * id
+     * 用户 id
      */
-    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     /**
      * 账号
      */
-    @TableField("user_account")
     private String userAccount;
-
-    /**
-     * 密码
-     */
-    private String userPassword;
 
     /**
      * 用户昵称
@@ -50,11 +39,6 @@ public class User {
     private String userRole;
 
     /**
-     * 编辑时间
-     */
-    private Date editTime;
-
-    /**
      * 创建时间
      */
     private Date createTime;
@@ -64,9 +48,5 @@ public class User {
      */
     private Date updateTime;
 
-    /**
-     * 是否删除
-     */
-    @TableLogic
-    private Integer isDelete;
+    private static final long serialVersionUID = 1L;
 }

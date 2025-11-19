@@ -7,7 +7,9 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.jizy.zn1backend.annotation.AuthCheck;
 import com.jizy.zn1backend.common.BaseResponse;
+import com.jizy.zn1backend.constant.UserConstant;
 import com.jizy.zn1backend.exception.BusinessException;
 import com.jizy.zn1backend.exception.ErrorCode;
 import com.jizy.zn1backend.model.dto.ArticleCreateRequest;
@@ -61,6 +63,7 @@ public class BlogArticleController {
      * @return
      */
     @PostMapping("/create")
+    @AuthCheck(mustRole = UserConstant.DEFAULT_ROLE)
     public BaseResponse<String> createBlogArticle(
             @RequestBody BlogArticleDTO request) {
         log.info("创建博客文章: {}", JSONUtil.toJsonStr(request));
@@ -78,6 +81,7 @@ public class BlogArticleController {
      * @return
      */
     @PostMapping("/upload")
+    @AuthCheck(mustRole = UserConstant.DEFAULT_ROLE)
     public BaseResponse<String> upload(@RequestParam("file") MultipartFile file) {
         try {
             log.info("上传文件: {}", file.getOriginalFilename());
@@ -160,6 +164,7 @@ public class BlogArticleController {
      * @return
      */
     @PostMapping("/delete/{id}")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<Boolean> deleteArticleById(
             @PathVariable Long id) {
         log.info("获取博客文章id: {}", id);
@@ -230,6 +235,7 @@ public class BlogArticleController {
      *
      */
     @PostMapping("/query/message")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<List<BlogMessage>> queryBlogMessage(
             @RequestBody BlogMessage request) {
         log.info("留言: {}", JSONUtil.toJsonStr(request));

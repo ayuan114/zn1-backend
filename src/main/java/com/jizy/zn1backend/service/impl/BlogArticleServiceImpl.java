@@ -62,7 +62,7 @@ public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleMapper, BlogA
             BlogArticle article = new BlogArticle();
             BeanUtil.copyProperties(request, article);
             // 生成10位随机长整型数
-            article.setId(RandomUtil.randomLong(1000000000L, 10000000000L));
+            //article.setId(RandomUtil.randomLong(1000000000L, 10000000000L));
             boolean save = this.save(article);
             BlogArticleResponse response = new BlogArticleResponse();
             BeanUtil.copyProperties(request, response);
